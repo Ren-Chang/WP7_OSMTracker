@@ -1,0 +1,96 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="OSMTracker.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+    xmlns:my="clr-namespace:Microsoft.Phone.Controls.Maps;assembly=Microsoft.Phone.Controls.Maps"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800" 
+    d:DataContext="{d:DesignData SampleData/MainViewModelSampleData.xaml}"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot 是包含所有页面内容的根网格-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+ 
+        <!--Panorama 控件-->
+        <controls:Panorama Title="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" SelectionChanged="Panorama_SelectionChanged">
+            <controls:Panorama.Background>
+                <ImageBrush ImageSource="PanoramaBackground.png"/>
+            </controls:Panorama.Background>
+ 
+            <!--Panorama 项目一-->
+            <controls:PanoramaItem Tag="tracking" Header="{Binding Path=LocalizedResources.TrackingPageTitle, Source={StaticResource LocalizedStrings}}">
+                
+                <!--具有文字环绕的双线列表-->
+                <!--
+                <ListBox Margin="0,0,-12,0" ItemsSource="{Binding Items}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0,0,0,17" Width="432" Height="78">
+                                <TextBlock Text="{Binding LineOne}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                                <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                 -->
+
+                <!--ContentPanel - place additional content here-->
+                <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+                    <TextBlock Text="{Binding Path=LocalizedResources.CurrentStatic, Source={StaticResource LocalizedStrings}}" Margin="0,0,0,0" FontSize="36" />
+                    <!--<TextBlock Text="Last:" Margin="0,60,0,0" FontSize="36" />-->
+                    <TextBlock x:Name="curAdmin" Margin="140,6,0,0" Height="auto"  FontSize="30"/>
+                    <!--<TextBlock x:Name="lstAdmin" Margin="140,66,0,499" FontSize="30"/>-->
+                    <TextBlock x:Name="curCoord" HorizontalAlignment="Left" Margin="140,48,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Height="auto" Width="auto" FontSize="12" Foreground="#CCFFFFFF" />
+                    <!--<TextBlock x:Name="lstCoord" HorizontalAlignment="Left" Margin="140,108,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Height="auto" Width="auto" FontSize="12" Foreground="#CCFFFFFF"/>-->
+                    <my:Map Name="map" Height="400" HorizontalAlignment="Left" Margin="0,66,0,0" VerticalAlignment="Top" Width="396" Mode="Aerial" CredentialsProvider="Am5d4dNWUK2mX53or9JVYD8QYPW9XuIp29F2_u7GL5sBOfQ9sSQaYhYu-bcpVBGE"/>
+
+                </Grid>
+
+                
+            </controls:PanoramaItem>
+            <!--Panorama 项目二-->
+            <!--使用“Orientation="Horizontal"”可使面板水平放置-->
+            <controls:PanoramaItem Tag="traces" Header="{Binding Path=LocalizedResources.ManagePageTitle, Source={StaticResource LocalizedStrings}}">
+                <!--具有图像占位符和文字环绕的双线列表-->
+                <ListBox Margin="0,0,-12,0" ItemsSource="{Binding Items}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,17">
+                                <!--用图像替换矩形-->
+                                <Rectangle Height="100" Width="100" Fill="#FFE5001b" Margin="12,0,9,0"/>
+                                <StackPanel Width="311">                                    
+                                    <TextBlock Text="{Binding LineOne}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                                    <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </controls:PanoramaItem>
+        </controls:Panorama>
+    </Grid>
+
+    <!--
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" Opacity="0.8">
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar.control.play.png" Text="Record" />
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar.control.stop.png" Text="Stop" />
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar.add.png" Text="Add" />
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar.edit.png" Text="edit" />
+    <shell:ApplicationBar.MenuItems>
+        <shell:ApplicationBarMenuItem Text="Record settings"/>
+        <shell:ApplicationBarMenuItem Text="About"/>
+    </shell:ApplicationBar.MenuItems>
+    </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+    -->
+</phone:PhoneApplicationPage>
