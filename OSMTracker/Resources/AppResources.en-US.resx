@@ -173,4 +173,7 @@
   <data name="BtnRecord" xml:space="preserve">
     <value>Record</value>
   </data>
+  <data name="UnknownLocation" xml:space="preserve">
+    <value>Your location is unknown at present.</value>
+  </data>
 </root>

@@ -221,5 +221,14 @@ namespace OSMTracker.Resources {
                 return ResourceManager.GetString("TrackingPageTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 位置信息暂时未知。 的本地化字符串。
+        /// </summary>
+        public static string UnknownLocation {
+            get {
+                return ResourceManager.GetString("UnknownLocation", resourceCulture);
+            }
+        }
     }
 }

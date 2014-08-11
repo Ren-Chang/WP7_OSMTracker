@@ -14,6 +14,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
 using OSMTracker.Resources;
+using OSMTracker.ViewModels;
 using System.Threading;
 using System.Globalization;
 using System.Diagnostics;
@@ -21,6 +22,7 @@ using System.Windows.Markup;
 
 using Microsoft.Phone.Controls.Maps;
 using System.Device.Location;
+using Coding4Fun.Toolkit.Controls;
 
 namespace OSMTracker
 {
@@ -31,6 +33,11 @@ namespace OSMTracker
         public static String appForceCulture = "";
         GeoCoordinateWatcher gcw;
         MapPolyline trackseg = new MapPolyline();
+        Boolean isRecording = false;
+        List<GeoPosition<GeoCoordinate>> trk = new List<GeoPosition<GeoCoordinate>>();
+        static List<Trace> allTraces = new List<Trace>();
+        static Traces traces;
+
 
         /// <summary>
         /// Provides easy access to the root frame of the phone app.
@@ -111,7 +118,8 @@ namespace OSMTracker
             ((ApplicationBarIconButton)appBar2.Buttons[2]).Text = AppResources.BtnShare;
             ((ApplicationBarMenuItem)appBar2.MenuItems[0]).Text = AppResources.MIAppSetting;
             ((ApplicationBarMenuItem)appBar2.MenuItems[1]).Text = AppResources.MIAbout;
-                    
+             
+            
         }
 
         // 应用程序启动(例如，从“开始”菜单启动)时执行的代码
@@ -157,6 +165,7 @@ namespace OSMTracker
         // 出现未处理的异常时执行的代码
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
+            MessageBox.Show(e.ExceptionObject.Message);
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 // 出现未处理的异常；强行进入调试器
@@ -266,41 +275,60 @@ namespace OSMTracker
 
         private void ApplicationBarIconButtonRecord_Click(object sender, EventArgs e)
         {
-            InitializeGeoWatcher();
-            InitializeTrkseg();//MessageBox.Show((Application.Current.RootVisual as PhoneApplicationFrame).Content as MainPage);
-            MainPage mPage = (Application.Current.RootVisual as PhoneApplicationFrame).Content as MainPage;
-            gcw.StatusChanged += new EventHandler<GeoPositionStatusChangedEventArgs>(gcw_StatusChanged);
-            gcw.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(gcw_PositionChanged);
-            gcw.Start();
-            Map map = mPage.map;
-            map.Center = new GeoCoordinate(gcw.Position.Location.Latitude, gcw.Position.Location.Longitude);
-            //if (gcw != null) gcw.Stop();
-            map.ZoomLevel = 10;
-            //http://maps.googleapis.com/maps/api/geocode/json?latlng=30.533649427844708,114.34974454353969&sensor=true_or_false
-            //google reverse geocoding API
-            mPage.curAdmin.Text = "Administration info";
-            mPage.curCoord.Text = gcw.Position.Location.Latitude + "," + gcw.Position.Location.Longitude;
-            this.trackseg.Locations.Add(gcw.Position.Location);
-
-            //Add a pin to map
-            if (map.Children.Count != 0)
+            if (!isRecording)
             {
-                var pushpin = map.Children.FirstOrDefault(p => (p.GetType() == typeof(Pushpin) && ((Pushpin)p).Tag == "locationPushpin"));
+                InitializeGeoWatcher();
+                InitializeTrkseg();//MessageBox.Show((Application.Current.RootVisual as PhoneApplicationFrame).Content as MainPage);
+                gcw.StatusChanged += new EventHandler<GeoPositionStatusChangedEventArgs>(gcw_StatusChanged);
+                gcw.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(gcw_PositionChanged);
+                gcw.Start();
 
-                if (pushpin != null)
+                /*
+                MainPage mPage = (Application.Current.RootVisual as PhoneApplicationFrame).Content as MainPage;
+
+
+                if (!gcw.Position.Location.IsUnknown)
                 {
-                    map.Children.Remove(pushpin);
-                }
-            }
+                    Map map = mPage.map;
+                    map.Center = new GeoCoordinate(gcw.Position.Location.Latitude, gcw.Position.Location.Longitude);
+                    //if (gcw != null) gcw.Stop();
+                    map.ZoomLevel = 10;
+                    //http://maps.googleapis.com/maps/api/geocode/json?latlng=30.533649427844708,114.34974454353969&sensor=true_or_false
+                    //google reverse geocoding API
+                    mPage.curAdmin.Text = "Administration info";
+                    mPage.curCoord.Text = gcw.Position.Location.Latitude + "," + gcw.Position.Location.Longitude;
+                    this.trackseg.Locations.Add(gcw.Position.Location);
+                    trk.Add(gcw.Position);
 
-            Pushpin locationPushpin = new Pushpin();
-            locationPushpin.Tag = "locationPushpin";
-            locationPushpin.Content = "Last";
-            locationPushpin.Location = gcw.Position.Location;
-            map.Children.Add(locationPushpin);
-            map.Children.Add(trackseg);
+                    //Add a pin to map
+                    if (map.Children.Count != 0)
+                    {
+                        var pushpin = map.Children.FirstOrDefault(p => (p.GetType() == typeof(Pushpin) && ((Pushpin)p).Tag == "locationPushpin"));
+
+                        if (pushpin != null)
+                        {
+                            map.Children.Remove(pushpin);
+                        }
+                    }
+
+                    Pushpin locationPushpin = new Pushpin();
+                    locationPushpin.Tag = "locationPushpin";
+                    locationPushpin.Content = "Last";
+                    locationPushpin.Location = gcw.Position.Location;
+                    map.Children.Add(locationPushpin);
+                    map.Children.Add(trackseg);
+                }
+                else
+                {
+                    mPage.curAdmin.Text = AppResources.UnknownLocation;
+                    mPage.curCoord.Text = "";
+                    MessageBox.Show(AppResources.UnknownLocation);
+                }*/
+            }
+            isRecording = !isRecording;
         
         }
+
 
         // Initialize listener
         private void InitializeGeoWatcher()
@@ -311,7 +339,7 @@ namespace OSMTracker
         // Initialize track layer
         private void InitializeTrkseg()
         {
-            trackseg.Stroke = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Gray);
+            trackseg.Stroke = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Cyan);
             trackseg.StrokeThickness = 2;
             trackseg.Locations = new LocationCollection();
         }
@@ -334,12 +362,13 @@ namespace OSMTracker
             Map map = mPage.map;
             // Update the map to show the current location
             GeoCoordinate cur = e.Position.Location;
+            trk.Add(e.Position);
             map.SetView(cur, 15);
             map.Visibility = System.Windows.Visibility.Visible;
 
             //update pushpin location and show
             //lstCoord.Text = curCoord.Text;
-            mPage.curCoord.Text = cur.Latitude + "," + cur.Longitude;
+            mPage.curCoord.Text = "@" + e.Position.Timestamp + cur.Latitude + "," + cur.Longitude;
             //lstAdmin.Text = curAdmin.Text;
             mPage.curAdmin.Text = "Administrative address not supported now.";
 
@@ -365,6 +394,55 @@ namespace OSMTracker
             this.trackseg.Visibility = System.Windows.Visibility.Visible;
 
         }
+
+        private void ApplicationBarIconButtonStop_Click(object sender, EventArgs e)
+        {
+            if (isRecording)
+            {
+                gcw.Stop();
+                string filename = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString();
+                
+                InputPrompt input = new InputPrompt();
+                input.Title = "Trace name:"; input.Value = filename; input.IsCancelVisible = true;
+                input.Completed += new EventHandler<PopUpEventArgs<string, PopUpResult>>(input_Completed);
+                input.Show();
+                 
+                //ViewModel.Items.Add(new Trace(filename, DateTime.Now, trk.Count));
+            }
+            else
+                MessageBox.Show("Not recording.");
+        }
+
+        private void input_Completed(object sender, PopUpEventArgs<string, PopUpResult> e)
+        {
+            if (e.Result != null)
+            {
+                string filename = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString();
+                if (e.Result != "")
+                    filename = e.Result;
+
+                //allTraces.Add(new Trace(filename, DateTime.Now, trk.Count));
+                ViewModel.Items.Add(new Trace(filename, DateTime.Now, trk.Count));
+                
+                // Write to file
+                /*
+                GpxWriter writer = new GpxWriter(filename);
+                foreach (GeoPosition<GeoCoordinate> gpsinfo in trk)
+                {
+                    writer.AddGpsInfo(gpsinfo);
+                }
+                writer.WriteToGpx();
+                 */
+                MessageBox.Show("Saved to " + filename + ".\nTotal"+ trk.Count + " points.\nStart: " + trk.ElementAt(0).Timestamp.ToString() + "\nEnd: " + trk.ElementAt(trk.Count-1).Timestamp.ToString());
+                trk.Clear();
+                //TODO: clear map layer for track segment
+            }
+            else
+            {
+                MessageBox.Show("Not saved.");
+            }
+        }
+
 
     }
 }

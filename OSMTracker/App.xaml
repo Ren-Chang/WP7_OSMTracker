@@ -14,7 +14,7 @@
         <!-- ApplicationBars-->
         <shell:ApplicationBar x:Key="TrackingBar" IsVisible="True" IsMenuEnabled="True" Opacity="0.8">
             <shell:ApplicationBarIconButton IconUri="/Images/appbar.control.play.png" Text="Record" Click="ApplicationBarIconButtonRecord_Click" />
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar.control.stop.png" Text="Stop" />
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar.control.stop.png" Text="Stop" Click="ApplicationBarIconButtonStop_Click"/>
             <shell:ApplicationBarIconButton IconUri="/Images/appbar.add.png" Text="Add" />
             <!--<shell:ApplicationBarIconButton IconUri="/Images/appbar.edit.png" Text="edit" />-->
             <shell:ApplicationBar.MenuItems>

@@ -8,22 +8,27 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+    xmlns:model="clr-namespace:OSMTracker"
     xmlns:my="clr-namespace:Microsoft.Phone.Controls.Maps;assembly=Microsoft.Phone.Controls.Maps"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800" 
-    d:DataContext="{d:DesignData SampleData/MainViewModelSampleData.xaml}"
+    d:DataContext="{d:DesignData SampleData/MainViewModelSampleData.xaml}" 
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.Opacity="0.3">
+    <!--d:DataContext="{d:DesignInstance Type=model:MainViewModel}"
+    -->
 
     <!--LayoutRoot 是包含所有页面内容的根网格-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="Transparent" 
+          >
  
         <!--Panorama 控件-->
         <controls:Panorama Title="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" SelectionChanged="Panorama_SelectionChanged">
             <controls:Panorama.Background>
-                <ImageBrush ImageSource="PanoramaBackground.png"/>
+                <ImageBrush ImageSource="/View/PanoramaBackground.png" />
             </controls:Panorama.Background>
  
             <!--Panorama 项目一-->
@@ -66,9 +71,9 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,17">
                                 <!--用图像替换矩形-->
-                                <Rectangle Height="100" Width="100" Fill="#FFE5001b" Margin="12,0,9,0"/>
+                                <Image Height="100" Width="100" Source="/Images/appbar.map.treasure.png" Margin="9,0,9,0"/>
                                 <StackPanel Width="311">                                    
-                                    <TextBlock Text="{Binding LineOne}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                                    <TextBlock Text="{Binding Name}" TextWrapping="Wrap" Margin="12,6,12,0" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
                                     <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
                                 </StackPanel>
                             </StackPanel>

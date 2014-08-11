@@ -173,4 +173,7 @@
   <data name="BtnRecord" xml:space="preserve">
     <value>录制</value>
   </data>
+  <data name="UnknownLocation" xml:space="preserve">
+    <value>位置信息暂时未知。</value>
+  </data>
 </root>
