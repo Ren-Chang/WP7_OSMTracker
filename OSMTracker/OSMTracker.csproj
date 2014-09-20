@@ -62,6 +62,10 @@
     <Reference Include="System.Xml" />
     <Reference Include="mscorlib.extensions" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsPhoneListBoxWithCheckBoxesControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\Debug\WindowsPhoneListBoxWithCheckBoxesControl.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -98,14 +102,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="SampleData\MainViewModelSampleData.xaml">
+    <DesignData Include="View\SampleData\MainViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="SampleData\jinghu.gpx" />
-    <None Include="SampleData\fromMyPhone2.gpx">
+    <Resource Include="View\SampleData\jinghu.gpx" />
+    <None Include="OSMTracker_2014_08_25_11_10_49.sap" />
+    <None Include="OSMTracker_2014_08_25_11_13_12.sap" />
+    <None Include="OSMTracker_2014_08_25_11_16_07.sap" />
+    <None Include="View\SampleData\fromMyPhone2.gpx">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -114,6 +121,7 @@
     <None Include="Properties\WMAppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\appbar.close.png" />
     <Content Include="Images\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

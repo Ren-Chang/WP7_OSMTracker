@@ -176,4 +176,7 @@
   <data name="UnknownLocation" xml:space="preserve">
     <value>Your location is unknown at present.</value>
   </data>
+  <data name="BtnCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
 </root>

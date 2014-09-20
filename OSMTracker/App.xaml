@@ -23,7 +23,7 @@
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
         <shell:ApplicationBar x:Key="ManageBar" IsVisible="True" IsMenuEnabled="True" Opacity="0.8">
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar.list.check.png" Text="check"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar.list.check.png" Text="check" Click="ApplicationBarIconButtonCheck_Click"/>
             <shell:ApplicationBarIconButton IconUri="/Images/appbar.sort.png" Text="sort"/>
             <shell:ApplicationBarIconButton IconUri="/Images/appbar.social.sharethis.png" Text="share" />
             <shell:ApplicationBar.MenuItems>
@@ -31,10 +31,11 @@
                 <shell:ApplicationBarMenuItem Text="About"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
-        <shell:ApplicationBar x:Key="onCheckBar" IsVisible="False" IsMenuEnabled="True" Opacity="0.8">
+        <shell:ApplicationBar x:Key="onCheckBar" IsVisible="True" IsMenuEnabled="False" Opacity="0.8">
             <shell:ApplicationBarIconButton IconUri="/Images/appbar.map.location.png" Text="draw" />
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar.cloud.upload.png" Text="upload" />
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar.delete.png" Text="delete" />
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar.cloud.upload.png" Text="upload" Click="ApplicationBarIconButtonCheckUpload_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar.delete.png" Text="delete" Click="ApplicationBarIconButtonCheckDelete_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar.close.png" Text="cancel" Click="ApplicationBarIconButtonCheckCancel_Click"/>
         </shell:ApplicationBar>
     </Application.Resources>
 

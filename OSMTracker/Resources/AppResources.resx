@@ -176,4 +176,7 @@
   <data name="UnknownLocation" xml:space="preserve">
     <value>位置信息暂时未知。</value>
   </data>
+  <data name="BtnCancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
 </root>

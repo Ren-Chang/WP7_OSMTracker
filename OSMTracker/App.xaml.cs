@@ -12,6 +12,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using Microsoft.Phone.Tasks;
+using System.IO;
+using System.IO.IsolatedStorage;
 
 using OSMTracker.Resources;
 using OSMTracker.ViewModels;
@@ -31,6 +34,7 @@ namespace OSMTracker
         // Global variable to set app locale at launch for International testing
         // An empty value causes the app to following users phone language culture
         public static String appForceCulture = "";
+        public static MainPage mPage = null;
         GeoCoordinateWatcher gcw;
         MapPolyline trackseg = new MapPolyline();
         Boolean isRecording = false;
@@ -400,7 +404,8 @@ namespace OSMTracker
             if (isRecording)
             {
                 gcw.Stop();
-                string filename = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString();
+                isRecording = false;
+                string filename = DateTime.Now.ToString("yyyyMMdd_HHmm");
                 
                 InputPrompt input = new InputPrompt();
                 input.Title = "Trace name:"; input.Value = filename; input.IsCancelVisible = true;
@@ -425,14 +430,14 @@ namespace OSMTracker
                 ViewModel.Items.Add(new Trace(filename, DateTime.Now, trk.Count));
                 
                 // Write to file
-                /*
+                
                 GpxWriter writer = new GpxWriter(filename);
                 foreach (GeoPosition<GeoCoordinate> gpsinfo in trk)
                 {
                     writer.AddGpsInfo(gpsinfo);
                 }
                 writer.WriteToGpx();
-                 */
+                
                 MessageBox.Show("Saved to " + filename + ".\nTotal"+ trk.Count + " points.\nStart: " + trk.ElementAt(0).Timestamp.ToString() + "\nEnd: " + trk.ElementAt(trk.Count-1).Timestamp.ToString());
                 trk.Clear();
                 //TODO: clear map layer for track segment
@@ -443,6 +448,79 @@ namespace OSMTracker
             }
         }
 
+        private void ApplicationBarIconButtonCheck_Click(object sender, EventArgs e)
+        {
+            MainPage mPage = (Application.Current.RootVisual as PhoneApplicationFrame).Content as MainPage;
+            mPage.listBoxCheckable.IsInChooseState = true;
+            var onCheckBar = App.Current.Resources["onCheckBar"] as ApplicationBar;
+            ((ApplicationBarIconButton)onCheckBar.Buttons[0]).Text = AppResources.BtnDraw;
+            ((ApplicationBarIconButton)onCheckBar.Buttons[1]).Text = AppResources.BtnUpload;
+            ((ApplicationBarIconButton)onCheckBar.Buttons[2]).Text = AppResources.BtnDelete;
+            ((ApplicationBarIconButton)onCheckBar.Buttons[3]).Text = AppResources.BtnCancel;
+            mPage.ApplicationBar = onCheckBar;
+        }
 
+        private void ApplicationBarIconButtonCheckCancel_Click(object sender, EventArgs e)
+        {
+            mPage.listBoxCheckable.IsInChooseState = false;
+            mPage.ApplicationBar = App.Current.Resources["ManageBar"] as ApplicationBar;
+        }
+
+        private void ApplicationBarIconButtonCheckUpload_Click(object sender, EventArgs e)
+        {
+            Trace listTrace = mPage.listBoxCheckable.SelectedItem as Trace;
+            //MessageBox.Show(listTrace.LineTwo + " traces selected.");
+            uploadViaMail(listTrace);
+            ApplicationBarIconButtonCheckCancel_Click(null,null);
+        }
+
+        private void uploadViaMail(Trace selected)
+        {
+            EmailComposeTask ect = new EmailComposeTask();
+            ect.Body = getGpxString(selected);
+            ect.Subject = selected.Name;
+            ect.Show();
+        }
+
+        private string getGpxString(Trace trace)
+        {
+            string filename = trace.Name;
+            IsolatedStorageFile isoFile = IsolatedStorageFile.GetUserStoreForApplication();
+            if (!isoFile.FileExists(filename))
+            {
+                MessageBox.Show("File not found.");
+                return "";
+            }
+            string gpxStr;
+            using (IsolatedStorageFileStream stream = isoFile.OpenFile(filename, System.IO.FileMode.Open))
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    gpxStr = reader.ReadToEnd();
+                }
+            }
+            return gpxStr;
+        }
+
+        private void ApplicationBarIconButtonCheckDelete_Click(object sender, EventArgs e)
+        {
+            Trace select = mPage.listBoxCheckable.SelectedItem as Trace;
+            if ( -1 == deleteGpx(select.Name))
+                MessageBox.Show("File does not exist.");
+            ViewModel.Items.Remove(select);
+            ApplicationBarIconButtonCheckCancel_Click(null, null);
+        }
+
+        private int deleteGpx(string filename)
+        {
+            IsolatedStorageFile isoFile = IsolatedStorageFile.GetUserStoreForApplication();
+            if (!isoFile.FileExists(filename))
+            {
+                //MessageBox.Show("File not found.");
+                return -1;
+            }
+            isoFile.DeleteFile(filename);
+            return 0;
+        }
     }
 }

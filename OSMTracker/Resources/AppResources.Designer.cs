@@ -79,6 +79,15 @@ namespace OSMTracker.Resources {
         }
         
         /// <summary>
+        ///   查找类似 取消 的本地化字符串。
+        /// </summary>
+        public static string BtnCancel {
+            get {
+                return ResourceManager.GetString("BtnCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 选择 的本地化字符串。
         /// </summary>
         public static string BtnCheck {

@@ -24,11 +24,15 @@ namespace OSMTracker
             // 将 listbox 控件的数据上下文设置为示例数据
             DataContext = App.ViewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
+
         }
 
         // 为 ViewModel 项加载数据
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
+
+            // Initialize app static variable
+            App.mPage = this;
             // Initialize appbar
             ApplicationBar = App.Current.Resources["TrackingBar"] as Microsoft.Phone.Shell.ApplicationBar;
 
@@ -69,6 +73,9 @@ namespace OSMTracker
                 // Do routes stuff
                 ApplicationBar = App.Current.Resources["ManageBar"] as Microsoft.Phone.Shell.ApplicationBar;
             }
+
+            if (this.listBoxCheckable.IsInChooseState)
+                this.listBoxCheckable.IsInChooseState = false;
 
         }
 

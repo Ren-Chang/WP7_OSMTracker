@@ -9,7 +9,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:sys="clr-namespace:System;assembly=mscorlib" 
     xmlns:model="clr-namespace:OSMTracker"
-    xmlns:my="clr-namespace:Microsoft.Phone.Controls.Maps;assembly=Microsoft.Phone.Controls.Maps"
+    xmlns:map="clr-namespace:Microsoft.Phone.Controls.Maps;assembly=Microsoft.Phone.Controls.Maps"
+    xmlns:list="clr-namespace:System.Windows.Controls;assembly=WindowsPhoneListBoxWithCheckBoxesControl"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800" 
     d:DataContext="{d:DesignData SampleData/MainViewModelSampleData.xaml}" 
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -56,7 +57,7 @@
                     <!--<TextBlock x:Name="lstAdmin" Margin="140,66,0,499" FontSize="30"/>-->
                     <TextBlock x:Name="curCoord" HorizontalAlignment="Left" Margin="140,48,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Height="auto" Width="auto" FontSize="12" Foreground="#CCFFFFFF" />
                     <!--<TextBlock x:Name="lstCoord" HorizontalAlignment="Left" Margin="140,108,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Height="auto" Width="auto" FontSize="12" Foreground="#CCFFFFFF"/>-->
-                    <my:Map Name="map" Height="400" HorizontalAlignment="Left" Margin="0,66,0,0" VerticalAlignment="Top" Width="396" Mode="Aerial" CredentialsProvider="Am5d4dNWUK2mX53or9JVYD8QYPW9XuIp29F2_u7GL5sBOfQ9sSQaYhYu-bcpVBGE"/>
+                    <map:Map Name="map" Height="400" HorizontalAlignment="Left" Margin="0,66,0,0" VerticalAlignment="Top" Width="396" Mode="Aerial" CredentialsProvider="Am5d4dNWUK2mX53or9JVYD8QYPW9XuIp29F2_u7GL5sBOfQ9sSQaYhYu-bcpVBGE"/>
 
                 </Grid>
 
@@ -66,7 +67,7 @@
             <!--使用“Orientation="Horizontal"”可使面板水平放置-->
             <controls:PanoramaItem Tag="traces" Header="{Binding Path=LocalizedResources.ManagePageTitle, Source={StaticResource LocalizedStrings}}">
                 <!--具有图像占位符和文字环绕的双线列表-->
-                <ListBox Margin="0,0,-12,0" ItemsSource="{Binding Items}">
+                <list:ListBoxWithCheckBoxes Name="listBoxCheckable" Margin="0,0,-12,0" ItemsSource="{Binding Items}" SelectionMode="Multiple" >
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,17">
@@ -79,7 +80,7 @@
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
-                </ListBox>
+                </list:ListBoxWithCheckBoxes>
             </controls:PanoramaItem>
         </controls:Panorama>
     </Grid>

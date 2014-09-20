@@ -19,7 +19,8 @@ C:\Users\Ren Chang\documents\visual studio 2012\Projects\OSMTracker\OSMTracker\o
 C:\Users\Ren Chang\documents\visual studio 2012\Projects\OSMTracker\OSMTracker\Bin\Debug\Coding4Fun.Toolkit.Controls.dll
 C:\Users\Ren Chang\documents\visual studio 2012\Projects\OSMTracker\OSMTracker\Bin\Debug\Images\ApplicationIcon.png
 C:\Users\Ren Chang\documents\visual studio 2012\Projects\OSMTracker\OSMTracker\Bin\Debug\Images\Background.png
-C:\Users\Ren Chang\documents\visual studio 2012\Projects\OSMTracker\OSMTracker\Bin\Debug\SampleData\fromMyPhone2.gpx
 C:\Users\Ren Chang\documents\visual studio 2012\Projects\OSMTracker\OSMTracker\obj\Debug\View\MainPage.g.cs
 C:\Users\Ren Chang\documents\visual studio 2012\Projects\OSMTracker\OSMTracker\Bin\Debug\SplashScreenImage.jpg
 C:\Users\Ren Chang\documents\visual studio 2012\Projects\OSMTracker\OSMTracker\Bin\Debug\View\PanoramaBackground.png
+C:\Users\Ren Chang\documents\visual studio 2012\Projects\OSMTracker\OSMTracker\obj\Debug\OSMTracker.csprojResolveAssemblyReference.cache
+C:\Users\Ren Chang\documents\visual studio 2012\Projects\OSMTracker\OSMTracker\Bin\Debug\View\SampleData\fromMyPhone2.gpx
