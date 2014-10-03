@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
-  <App xmlns="" ProductID="{5b21436f-24de-4519-8bbd-6a9d83678599}" Title="OSM Tracker" RuntimeType="Silverlight" Version="0.1.0.0" Genre="apps.normal" Author="REN Chang" Description="Tracks your location and export as GPX formatted file for your uploading to OpenStreetMap or editing in JOSM." Publisher="REN Chang">
+  <App xmlns="" ProductID="{5b21436f-24de-4519-8bbd-6a9d83678599}" Title="OSM Tracker" RuntimeType="Silverlight" Version="0.1.1.0" Genre="apps.normal" Author="REN Chang" Description="Tracks your location and export as GPX formatted file for your uploading to OpenStreetMap or editing in JOSM." Publisher="REN Chang">
     <IconPath IsRelative="true" IsResource="false">Images\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_IDENTITY_DEVICE" />

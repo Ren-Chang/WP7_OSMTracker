@@ -33,7 +33,7 @@ namespace OSMTracker
     {
         // Global variable to set app locale at launch for International testing
         // An empty value causes the app to following users phone language culture
-        public static String appForceCulture = "";
+        public static String appForceCulture = "en-US";
         public static MainPage mPage = null;
         GeoCoordinateWatcher gcw;
         MapPolyline trackseg = new MapPolyline();
@@ -47,7 +47,7 @@ namespace OSMTracker
         /// Provides easy access to the root frame of the phone app.
         /// </summary>
         /// <returns>The root frame of the phone app.</returns>
-        
+
         private static MainViewModel viewModel = null;
 
         /// <summary>
@@ -122,8 +122,8 @@ namespace OSMTracker
             ((ApplicationBarIconButton)appBar2.Buttons[2]).Text = AppResources.BtnShare;
             ((ApplicationBarMenuItem)appBar2.MenuItems[0]).Text = AppResources.MIAppSetting;
             ((ApplicationBarMenuItem)appBar2.MenuItems[1]).Text = AppResources.MIAbout;
-             
-            
+
+
         }
 
         // 应用程序启动(例如，从“开始”菜单启动)时执行的代码
@@ -199,7 +199,8 @@ namespace OSMTracker
             try
             {
                 // Change locale to appForceCulture if it is not empty
-                if (String.IsNullOrWhiteSpace(appForceCulture) == false)
+                if (String.IsNullOrWhiteSpace(appForceCulture) == false &&
+                    !Thread.CurrentThread.CurrentCulture.Equals(new CultureInfo("zh-CN")))
                 {
                     // Force app globalization to follow appForceCulture
                     Thread.CurrentThread.CurrentCulture = new CultureInfo(appForceCulture);
@@ -239,7 +240,7 @@ namespace OSMTracker
             }
         }
 
-        
+
 
         #region 电话应用程序初始化
 
@@ -287,10 +288,13 @@ namespace OSMTracker
                 gcw.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(gcw_PositionChanged);
                 gcw.Start();
 
-                /*
                 MainPage mPage = (Application.Current.RootVisual as PhoneApplicationFrame).Content as MainPage;
+                Map map = mPage.map;
+                mPage.curCoord.Visibility = Visibility.Visible;
+                if (!map.Children.Contains(trackseg))
+                    map.Children.Add(trackseg);
 
-
+                /*
                 if (!gcw.Position.Location.IsUnknown)
                 {
                     Map map = mPage.map;
@@ -328,9 +332,9 @@ namespace OSMTracker
                     mPage.curCoord.Text = "";
                     MessageBox.Show(AppResources.UnknownLocation);
                 }*/
-            }
             isRecording = !isRecording;
-        
+            }
+
         }
 
 
@@ -339,6 +343,7 @@ namespace OSMTracker
         {
             gcw = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
             gcw.MovementThreshold = 20;
+            PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Disabled;
         }
         // Initialize track layer
         private void InitializeTrkseg()
@@ -372,9 +377,10 @@ namespace OSMTracker
 
             //update pushpin location and show
             //lstCoord.Text = curCoord.Text;
-            mPage.curCoord.Text = "@" + e.Position.Timestamp + cur.Latitude + "," + cur.Longitude;
+            mPage.curCoord.Text = "@" + e.Position.Timestamp;
             //lstAdmin.Text = curAdmin.Text;
-            mPage.curAdmin.Text = "Administrative address not supported now.";
+            //mPage.curAdmin.Text = AppResources.NoAdminAddr;
+            mPage.curAdmin.Text = cur.Latitude.ToString("F4") + ", " + cur.Longitude.ToString("F4");
 
             //Add a pin to map
             if (map.Children.Count != 0)
@@ -404,53 +410,68 @@ namespace OSMTracker
             if (isRecording)
             {
                 gcw.Stop();
+                //PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Enabled;
                 isRecording = false;
-                string filename = DateTime.Now.ToString("yyyyMMdd_HHmm");
-                
+                mPage.curAdmin.Text = AppResources.NotRecord;
+                mPage.curCoord.Visibility = Visibility.Collapsed;
+                string filename = DateTime.Now.ToString("yyMMdd_HHmmss");
+
                 InputPrompt input = new InputPrompt();
-                input.Title = "Trace name:"; input.Value = filename; input.IsCancelVisible = true;
+                input.Title = AppResources.TraceName; input.Value = filename; input.IsCancelVisible = true;
                 input.Completed += new EventHandler<PopUpEventArgs<string, PopUpResult>>(input_Completed);
                 input.Show();
-                 
+
                 //ViewModel.Items.Add(new Trace(filename, DateTime.Now, trk.Count));
             }
             else
-                MessageBox.Show("Not recording.");
+                MessageBox.Show(AppResources.NotRecord);
         }
 
         private void input_Completed(object sender, PopUpEventArgs<string, PopUpResult> e)
         {
             if (e.Result != null)
             {
-                string filename = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString();
+                string filename = DateTime.Now.ToString("yyMMdd_HHmmss");
                 if (e.Result != "")
                     filename = e.Result;
 
-                //allTraces.Add(new Trace(filename, DateTime.Now, trk.Count));
-                ViewModel.Items.Add(new Trace(filename, DateTime.Now, trk.Count));
-                
-                // Write to file
-                
-                GpxWriter writer = new GpxWriter(filename);
-                foreach (GeoPosition<GeoCoordinate> gpsinfo in trk)
+                if (trk.Count > 0)
                 {
-                    writer.AddGpsInfo(gpsinfo);
+                    String traceInfo = String.Format(AppResources.TraceInfo, filename, trk.Count, trk.ElementAt(0).Timestamp.ToString(), trk.ElementAt(trk.Count - 1).Timestamp.ToString(),"\n");
+                    MessageBox.Show(traceInfo);
+                    //allTraces.Add(new Trace(filename, DateTime.Now, trk.Count));
+                    ViewModel.Items.Add(new Trace(filename, DateTime.Now, trk.Count));
+
+                    // Write to file
+
+                    GpxWriter writer = new GpxWriter(filename);
+                    foreach (GeoPosition<GeoCoordinate> gpsinfo in trk)
+                    {
+                        writer.AddGpsInfo(gpsinfo);
+                    }
+                    writer.WriteToGpx();
                 }
-                writer.WriteToGpx();
-                
-                MessageBox.Show("Saved to " + filename + ".\nTotal"+ trk.Count + " points.\nStart: " + trk.ElementAt(0).Timestamp.ToString() + "\nEnd: " + trk.ElementAt(trk.Count-1).Timestamp.ToString());
+                else
+                {
+                    MessageBox.Show(AppResources.ErrorNotSaved);
+                }
+
+
                 trk.Clear();
                 //TODO: clear map layer for track segment
+                mPage.map.Children.Clear();
             }
             else
             {
-                MessageBox.Show("Not saved.");
+                MessageBox.Show(AppResources.CancelSaving);
             }
         }
 
         private void ApplicationBarIconButtonCheck_Click(object sender, EventArgs e)
         {
             MainPage mPage = (Application.Current.RootVisual as PhoneApplicationFrame).Content as MainPage;
+            if (mPage.listBoxCheckable.Items.Count < 1)
+                return;
             mPage.listBoxCheckable.IsInChooseState = true;
             var onCheckBar = App.Current.Resources["onCheckBar"] as ApplicationBar;
             ((ApplicationBarIconButton)onCheckBar.Buttons[0]).Text = AppResources.BtnDraw;
@@ -468,27 +489,42 @@ namespace OSMTracker
 
         private void ApplicationBarIconButtonCheckUpload_Click(object sender, EventArgs e)
         {
-            Trace listTrace = mPage.listBoxCheckable.SelectedItem as Trace;
-            //MessageBox.Show(listTrace.LineTwo + " traces selected.");
-            uploadViaMail(listTrace);
-            ApplicationBarIconButtonCheckCancel_Click(null,null);
+            System.Collections.IList listTrace = mPage.listBoxCheckable.SelectedItems;
+            if (listTrace != null)
+                uploadViaMail(listTrace);
+            ApplicationBarIconButtonCheckCancel_Click(null, null);
         }
 
-        private void uploadViaMail(Trace selected)
+        private void uploadViaMail(System.Collections.IList selected)
         {
             EmailComposeTask ect = new EmailComposeTask();
-            ect.Body = getGpxString(selected);
-            ect.Subject = selected.Name;
+            string gpx = "";
+            foreach (Trace trace in selected)
+            {
+                gpx += "\n\n";
+                gpx += getGpxString(trace);
+            }
+            if (String.IsNullOrWhiteSpace(gpx))
+                return;
+            ect.Body = gpx;
+            ect.Subject = (selected[0] as Trace).Name;
+            if (selected.Count > 1)
+                ect.Subject += String.Format(AppResources.EmailHead, selected.Count - 1);
             ect.Show();
         }
 
         private string getGpxString(Trace trace)
         {
+            if (trace == null)
+            {
+                MessageBox.Show(AppResources.ErrorNoTrace);
+                return "";
+            }
             string filename = trace.Name;
             IsolatedStorageFile isoFile = IsolatedStorageFile.GetUserStoreForApplication();
             if (!isoFile.FileExists(filename))
             {
-                MessageBox.Show("File not found.");
+                MessageBox.Show(AppResources.ErrorFileNotFound);
                 return "";
             }
             string gpxStr;
@@ -504,10 +540,21 @@ namespace OSMTracker
 
         private void ApplicationBarIconButtonCheckDelete_Click(object sender, EventArgs e)
         {
-            Trace select = mPage.listBoxCheckable.SelectedItem as Trace;
-            if ( -1 == deleteGpx(select.Name))
-                MessageBox.Show("File does not exist.");
-            ViewModel.Items.Remove(select);
+            System.Collections.IList selected = mPage.listBoxCheckable.SelectedItems;
+            //System.Diagnostics.Debug.WriteLine(mPage.listBoxCheckable.SelectedItems.GetType() + selected.ToString());
+
+            //if (selected == null)
+            //{
+            //    MessageBox.Show("No trace specified.");
+            //    return;
+            //}
+
+            foreach (Trace select in selected)
+            {
+                if (-1 == deleteGpx(select.Name))
+                    MessageBox.Show(AppResources.ErrorFileNotFound);
+                ViewModel.Items.Remove(select);
+            }
             ApplicationBarIconButtonCheckCancel_Click(null, null);
         }
 
@@ -521,6 +568,11 @@ namespace OSMTracker
             }
             isoFile.DeleteFile(filename);
             return 0;
+        }
+
+        private void ApplicationBarMenuItemAbout_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(String.Format(AppResources.AboutString,"\n"),AppResources.AboutHeader, new MessageBoxButton());
         }
     }
 }

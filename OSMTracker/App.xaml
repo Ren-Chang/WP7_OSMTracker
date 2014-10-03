@@ -19,7 +19,7 @@
             <!--<shell:ApplicationBarIconButton IconUri="/Images/appbar.edit.png" Text="edit" />-->
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="Record settings"/>
-                <shell:ApplicationBarMenuItem Text="About"/>
+                <shell:ApplicationBarMenuItem Text="About" Click="ApplicationBarMenuItemAbout_Click" />
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
         <shell:ApplicationBar x:Key="ManageBar" IsVisible="True" IsMenuEnabled="True" Opacity="0.8">
@@ -28,7 +28,7 @@
             <shell:ApplicationBarIconButton IconUri="/Images/appbar.social.sharethis.png" Text="share" />
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="Application settings"/>
-                <shell:ApplicationBarMenuItem Text="About"/>
+                <shell:ApplicationBarMenuItem Text="About" Click="ApplicationBarMenuItemAbout_Click" />
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
         <shell:ApplicationBar x:Key="onCheckBar" IsVisible="True" IsMenuEnabled="False" Opacity="0.8">

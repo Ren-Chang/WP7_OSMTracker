@@ -58,7 +58,7 @@ namespace OSMTracker
                         xmlWriter.WriteAttributeString("xmlns", "xsi", null, "http://www.w3.org/2001/XMLSchema-instance");
                         xmlWriter.WriteAttributeString("xmlns", "mbx", null, "http://www.motionbased.net/mbx");
                         xmlWriter.WriteAttributeString("xsi", "schemaLocation", null, "http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd http://www.motionbased.net/mbx http://www.motionbased.net/site/schemas/mbx/0.0.1/mbx.xsd");
-                        xmlWriter.WriteAttributeString("creator", "OSMTracker for WindowsPhone - 0.1");
+                        xmlWriter.WriteAttributeString("creator", "OSMTracker for WindowsPhone - https://github.com/Ren-Chang/WP7_OSMTracker");
                         xmlWriter.WriteAttributeString("version", "1.0");
 
                         //写内容根节点

@@ -179,4 +179,37 @@
   <data name="BtnCancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="CancelSaving" xml:space="preserve">
+    <value>Cancelled. Trace not saved.</value>
+  </data>
+  <data name="EmailHead" xml:space="preserve">
+    <value> and other {0} traces</value>
+  </data>
+  <data name="ErrorFileNotFound" xml:space="preserve">
+    <value>File not found.</value>
+  </data>
+  <data name="ErrorNoTrace" xml:space="preserve">
+    <value>No trace specified.</value>
+  </data>
+  <data name="ErrorNotSaved" xml:space="preserve">
+    <value>Something was wrong and there is nothing to save.</value>
+  </data>
+  <data name="NoAdminAddr" xml:space="preserve">
+    <value>Administrative address not supported now.</value>
+  </data>
+  <data name="NotRecord" xml:space="preserve">
+    <value>Not recording.</value>
+  </data>
+  <data name="TraceInfo" xml:space="preserve">
+    <value>Saved to {0}.{4}Totally {1} points.{4}Start: {2}{4}End: {3}</value>
+  </data>
+  <data name="TraceName" xml:space="preserve">
+    <value>Trace name: </value>
+  </data>
+  <data name="AboutHeader" xml:space="preserve">
+    <value>OSMTracker for WP v0.1.1.0</value>
+  </data>
+  <data name="AboutString" xml:space="preserve">
+    <value>-This is NOT an official app from openstreetmap.org but a small work from a Chinese undergrad majoring in cartography. It's still in develop so there may be a lot of bugs.{0}-Please upload your traces via mail as soon as you finish it for now, because they won't be preserved between sessions. I'm working hard to fix it in the future updates.{0}-If you have problems using this app, please contact me by emailing renc.whu@gmail.com and I'll greatly appreciate it.</value>
+  </data>
 </root>

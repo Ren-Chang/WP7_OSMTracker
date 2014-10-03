@@ -61,6 +61,24 @@ namespace OSMTracker.Resources {
         }
         
         /// <summary>
+        ///   查找类似 OSM轨迹记录仪 0.1.1.0版 的本地化字符串。
+        /// </summary>
+        public static string AboutHeader {
+            get {
+                return ResourceManager.GetString("AboutHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 -这不是来自openstreetmap.org的官方应用，而是一个地图学专业大学生的小作品。目前仍处于开发阶段所以可能存在很多问题。{0}-目前请务必在录制完轨迹后随时通过邮件上传，因为关闭应用后再打开这些轨迹将不会显示。我正在努力以便在将来版本中解决这一问题{0}-如果使用中有问题请邮件联系我：renc.whu@gmail.com，非常感谢您的关注。 的本地化字符串。
+        /// </summary>
+        public static string AboutString {
+            get {
+                return ResourceManager.GetString("AboutString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 OSM轨迹记录仪 的本地化字符串。
         /// </summary>
         public static string ApplicationTitle {
@@ -160,11 +178,56 @@ namespace OSMTracker.Resources {
         }
         
         /// <summary>
+        ///   查找类似 已取消，轨迹未保存。 的本地化字符串。
+        /// </summary>
+        public static string CancelSaving {
+            get {
+                return ResourceManager.GetString("CancelSaving", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 现位置： 的本地化字符串。
         /// </summary>
         public static string CurrentStatic {
             get {
                 return ResourceManager.GetString("CurrentStatic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 和另外{0}条轨迹 的本地化字符串。
+        /// </summary>
+        public static string EmailHead {
+            get {
+                return ResourceManager.GetString("EmailHead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未找到文件。 的本地化字符串。
+        /// </summary>
+        public static string ErrorFileNotFound {
+            get {
+                return ResourceManager.GetString("ErrorFileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未指定要操作的轨迹。 的本地化字符串。
+        /// </summary>
+        public static string ErrorNoTrace {
+            get {
+                return ResourceManager.GetString("ErrorNoTrace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 发生错误，未保存内容。 的本地化字符串。
+        /// </summary>
+        public static string ErrorNotSaved {
+            get {
+                return ResourceManager.GetString("ErrorNotSaved", resourceCulture);
             }
         }
         
@@ -205,6 +268,24 @@ namespace OSMTracker.Resources {
         }
         
         /// <summary>
+        ///   查找类似 行政区划暂不支持 的本地化字符串。
+        /// </summary>
+        public static string NoAdminAddr {
+            get {
+                return ResourceManager.GetString("NoAdminAddr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 不在录制。 的本地化字符串。
+        /// </summary>
+        public static string NotRecord {
+            get {
+                return ResourceManager.GetString("NotRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 LeftToRight 的本地化字符串。
         /// </summary>
         public static string ResourceFlowDirection {
@@ -219,6 +300,24 @@ namespace OSMTracker.Resources {
         public static string ResourceLanguage {
             get {
                 return ResourceManager.GetString("ResourceLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 已保存至文件{0}。{4}共计{1}个点。{4}起始于：{2}{4}终止于：{3} 的本地化字符串。
+        /// </summary>
+        public static string TraceInfo {
+            get {
+                return ResourceManager.GetString("TraceInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 轨迹名称： 的本地化字符串。
+        /// </summary>
+        public static string TraceName {
+            get {
+                return ResourceManager.GetString("TraceName", resourceCulture);
             }
         }
         

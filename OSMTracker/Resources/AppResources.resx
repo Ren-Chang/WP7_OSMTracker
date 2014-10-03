@@ -179,4 +179,37 @@
   <data name="BtnCancel" xml:space="preserve">
     <value>取消</value>
   </data>
+  <data name="CancelSaving" xml:space="preserve">
+    <value>已取消，轨迹未保存。</value>
+  </data>
+  <data name="EmailHead" xml:space="preserve">
+    <value>和另外{0}条轨迹</value>
+  </data>
+  <data name="ErrorFileNotFound" xml:space="preserve">
+    <value>未找到文件。</value>
+  </data>
+  <data name="ErrorNoTrace" xml:space="preserve">
+    <value>未指定要操作的轨迹。</value>
+  </data>
+  <data name="ErrorNotSaved" xml:space="preserve">
+    <value>发生错误，未保存内容。</value>
+  </data>
+  <data name="NoAdminAddr" xml:space="preserve">
+    <value>行政区划暂不支持</value>
+  </data>
+  <data name="NotRecord" xml:space="preserve">
+    <value>不在录制。</value>
+  </data>
+  <data name="TraceInfo" xml:space="preserve">
+    <value>已保存至文件{0}。{4}共计{1}个点。{4}起始于：{2}{4}终止于：{3}</value>
+  </data>
+  <data name="TraceName" xml:space="preserve">
+    <value>轨迹名称：</value>
+  </data>
+  <data name="AboutHeader" xml:space="preserve">
+    <value>OSM轨迹记录仪 0.1.1.0版</value>
+  </data>
+  <data name="AboutString" xml:space="preserve">
+    <value>-这不是来自openstreetmap.org的官方应用，而是一个地图学专业大学生的小作品。目前仍处于开发阶段所以可能存在很多问题。{0}-目前请务必在录制完轨迹后随时通过邮件上传，因为关闭应用后再打开这些轨迹将不会显示。我正在努力以便在将来版本中解决这一问题{0}-如果使用中有问题请邮件联系我：renc.whu@gmail.com，非常感谢您的关注。</value>
+  </data>
 </root>
